@@ -65,6 +65,7 @@ public class ScrollCalendar extends LinearLayoutCompat implements ResProvider, C
     private boolean showYearAlways;
     private boolean softLineBreaks;
     private boolean addCurrentMonth;
+    private boolean useShortWeekdayNames;
 
     private final LegendItem[] legend = new LegendItem[7];
 
@@ -88,6 +89,7 @@ public class ScrollCalendar extends LinearLayoutCompat implements ResProvider, C
     private void init(@NonNull Context context) {
         setOrientation(VERTICAL);
         inflate(context, R.layout.scrollcalendar_calendar, this);
+        LegendItem.useShortWeekdayNames(useShortWeekdayNames);
         for (int i = 0; i < legend.length; i++) {
             legend[i] = new LegendItem(i + 1, this);
         }
@@ -113,6 +115,7 @@ public class ScrollCalendar extends LinearLayoutCompat implements ResProvider, C
         showYearAlways = typedArray.getBoolean(R.styleable.ScrollCalendar_showYearAlways, false);
         softLineBreaks = typedArray.getBoolean(R.styleable.ScrollCalendar_roundLineBreaks, true);
         addCurrentMonth = typedArray.getBoolean(R.styleable.ScrollCalendar_addCurrentMonth, true);
+        useShortWeekdayNames = typedArray.getBoolean(R.styleable.ScrollCalendar_useShortWeekdayNames, false);
 
         typedArray.recycle();
     }

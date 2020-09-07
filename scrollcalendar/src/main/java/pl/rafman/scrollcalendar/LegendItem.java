@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,7 +24,10 @@ import pl.rafman.scrollcalendar.adapter.ResProvider;
  */
 public class LegendItem {
 
-    private final char[] days;
+    private static boolean useShortWeekdayNames = false;
+
+    private final char[] daysFirstChar;
+    private final String[] daysShortName = new String[7];
 
     private static final int[] attrs = {
             android.R.attr.textColor,
@@ -45,22 +47,25 @@ public class LegendItem {
         Arrays.sort(attrs);
         //
         String[] weekdays = new DateFormatSymbols().getWeekdays();
+        String[] shortWeekdays = new DateFormatSymbols().getShortWeekdays();
         String[] original = new String[7];
 
         int firstDay = calendarProvider.getCalendar().getFirstDayOfWeek();
 
         for (int i = 0; i < 7; i++) {
             original[i] = weekdays[((firstDay+i-1)%7)+1];
+            daysShortName[i] = shortWeekdays[((firstDay+i-1)%7)+1];
         }
         List<Character> characters = new ArrayList<>();
         for (String s : original) {
             if (s != null && !s.isEmpty()) {
                 characters.add(s.toUpperCase(Locale.US).charAt(0));
+
             }
         }
-        days = new char[characters.size()];
-        for (int i = 0; i < days.length; i++) {
-            days[i] = characters.get(i);
+        daysFirstChar = new char[characters.size()];
+        for (int i = 0; i < daysFirstChar.length; i++) {
+            daysFirstChar[i] = characters.get(i);
         }
     }
 
@@ -99,6 +104,9 @@ public class LegendItem {
         return textView;
     }
 
+    public static void useShortWeekdayNames(boolean value) {
+        useShortWeekdayNames = value;
+    }
 
     public void display() {
         if (textView != null) {
@@ -107,6 +115,10 @@ public class LegendItem {
     }
 
     private String getReadableSymbol() {
-        return String.valueOf(days[dayOfWeek - 1]);
+        if (useShortWeekdayNames) {
+            return daysShortName[dayOfWeek-1];
+        } else {
+            return String.valueOf(daysFirstChar[dayOfWeek - 1]);
+        }
     }
 }

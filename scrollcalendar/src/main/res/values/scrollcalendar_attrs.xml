@@ -20,6 +20,7 @@
         <attr name="showYearAlways" format="boolean" />
         <attr name="roundLineBreaks" format="boolean" />
         <attr name="addCurrentMonth" format="boolean" />
+        <attr name="useShortWeekdayNames" format="boolean" /> <!-- 'Tue' as opposed to the first letter, 'T' -->
         <!--adapter-->
         <attr name="adapter" format="enum">
             <enum name="none" value="0" />
